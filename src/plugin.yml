@@ -1,0 +1,8 @@
+name: Wrack-A-Mole
+version: 0.1
+author: Domi207yt
+main: de.domi207.wam.main.Main
+api-version: 1.13
+commands:
+    wrackamole:
+    	aliases: ["wam"]

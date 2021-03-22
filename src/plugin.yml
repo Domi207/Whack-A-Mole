@@ -4,5 +4,5 @@ author: Domi207yt
 main: de.domi207.wam.main.Main
 api-version: 1.13
 commands:
-    wrackamole:
-    	aliases: ["wam"]
+    wrackamule:
+         aliases: ["wam"]

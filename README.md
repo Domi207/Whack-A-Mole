@@ -66,7 +66,7 @@ center | Stellt den Center des Spielfeldes ein WICHTIG: Am besten per Command ei
 In dieser Datei werden die Highscores gespeichert. Am Besten nichts ändern.
 
 ### messages.yml
-```json
+```
 prefix: '§7[§aWhack§7-§bA§7-§cMole§7]§6: '
 highscoreinventory:
   title: §aWhack§7-§bA§7-§cMole

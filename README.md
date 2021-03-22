@@ -2,7 +2,7 @@
 
 Whack A Mole ist ein Plugin mit dem du Whack A Mole spielen kannst.
 
-[Ausführliche Erkärung](https://www.sanfransentinel.com/whack-a-mole.html)
+[Video Anleitung](https://www.youtube.com/watch?v=xaazUgEKuVA)
 
 
 ## Einrichtung

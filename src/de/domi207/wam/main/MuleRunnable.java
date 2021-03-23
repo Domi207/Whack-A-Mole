@@ -70,29 +70,30 @@ public class MuleRunnable implements Runnable, Listener {
 		Location to = e.getTo();
 		if (p == player) {
 			if (to.getX() < x1) {
-				p.setVelocity(p.getVelocity().add(new Vector(1, 0.5, 0)).setY(0.5));
+				p.setVelocity(p.getVelocity().setX(1).setY(0.5));
 			}
 			if (to.getX() > x2) {
-				p.setVelocity(p.getVelocity().add(new Vector(-1, 0.5, 0)).setY(0.5));
+				p.setVelocity(p.getVelocity().setX(-0.5).setY(0.5));
 			}
 			if (to.getZ() < z1) {
-				p.setVelocity(p.getVelocity().add(new Vector(0, 0.5, 1)).setY(0.5));
+				p.setVelocity(p.getVelocity().setZ(0.5).setY(0.5));
 			}
 			if (to.getZ() > z2) {
-				p.setVelocity(p.getVelocity().add(new Vector(0, 0.5, -1)).setY(0.5));
+				p.setVelocity(p.getVelocity().setZ(-0.5).setY(0.5));
 			}
 		} else {
 			if (to.getX() >= x1 && to.getX() <= center.getX()) {
-				p.setVelocity(p.getVelocity().add(new Vector(-1, 0.5, 0)).setY(0.5));
+				p.setVelocity(p.getVelocity().setX(-0.5).setY(0.5));
 			}
 			if (to.getX() <= x2 && to.getX() >= center.getX()) {
-				p.setVelocity(p.getVelocity().add(new Vector(1, 0.5, 0)).setY(0.5));
+				p.setVelocity(p.getVelocity().setX(0.5).setY(0.5));
 			}
 			if (to.getX() >= x1 && to.getX() <= center.getX()) {
+				p.setVelocity(p.getVelocity().setZ(-0.5).setY(0.5));
 				p.setVelocity(p.getVelocity().add(new Vector(0, 0.5, -1)).setY(0.5));
 			}
 			if (to.getX() <= x2 && to.getX() >= center.getX()) {
-				p.setVelocity(p.getVelocity().add(new Vector(0, 0.5, 1)).setY(0.5));
+				p.setVelocity(p.getVelocity().setZ(0.5).setY(0.5));
 			}
 		}
 	}

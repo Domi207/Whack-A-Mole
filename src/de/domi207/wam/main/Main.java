@@ -2,13 +2,17 @@ package de.domi207.wam.main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.domi207.wam.commands.CommandWrack_A_Mule;
@@ -27,6 +31,8 @@ public class Main extends JavaPlugin {
 	Integer wamTaskId;
 	Player player;
 	MuleRunnable muleRunnable;
+	GameMode lastGamemode;
+	HashMap<Integer, ItemStack> lastItems = new HashMap<>();
 
 	@Override
 	public void onEnable() {
@@ -175,7 +181,7 @@ public class Main extends JavaPlugin {
 		getCommand("wrackamule").setExecutor(new CommandWrack_A_Mule(this));
 		getCommand("wrackamule").setTabCompleter(new TabCompleterWrackAMule());
 
-		prefix = messages.getString("Prefix");
+		prefix = messages.getString("prefix");
 	}
 
 	@Override
@@ -194,7 +200,19 @@ public class Main extends JavaPlugin {
 	}
 
 	public void start(Player p) {
+		lastGamemode = p.getGameMode();
+		p.setGameMode(GameMode.ADVENTURE);
+		lastItems.clear();
+		Inventory inv = p.getInventory();
+		for (int i = 0; i < inv.getSize(); i++) {
+			if (inv.getItem(i) != null) {
+				lastItems.put(i, inv.getItem(i));
+			}
+		}
+		p.getInventory().clear();
+
 		player = p;
+
 		p.sendTitle(getMessages().getString("countdown.3"), "", 2, 16, 2);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 
@@ -231,6 +249,15 @@ public class Main extends JavaPlugin {
 	}
 
 	public void stop() {
+		if (player.isOnline()) {
+			player.setGameMode(lastGamemode);
+			Inventory inventory = player.getInventory();
+			inventory.clear();
+			for (int i : lastItems.keySet()) {
+				inventory.setItem(i, lastItems.get(i));
+			}
+		}
+
 		HandlerList.unregisterAll(muleRunnable);
 		muleRunnable.mules.values().forEach((mule) -> mule.leave());
 		player = null;

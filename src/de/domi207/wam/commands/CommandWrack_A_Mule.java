@@ -126,7 +126,8 @@ public class CommandWrack_A_Mule implements CommandExecutor {
 						if (amount > keys.size()) {
 							amount = keys.size();
 						}
-						sender.sendMessage(Main.prefix + main.getMessages().getString("leaderboard.header"));
+						sender.sendMessage(Main.prefix
+								+ String.format(main.getMessages().getString("leaderboard.header"), amount));
 						for (String key : keys) {
 							if (amount > 0) {
 								ConfigurationSection playerSection = leaderboard.getConfigurationSection(key);

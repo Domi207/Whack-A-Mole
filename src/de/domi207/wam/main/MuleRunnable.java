@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
 
 import net.md_5.bungee.api.ChatMessageType;
@@ -62,6 +63,13 @@ public class MuleRunnable implements Runnable, Listener {
 
 		this.leaderboard = leaderboard;
 
+	}
+
+	@EventHandler
+	public void onLeave(PlayerQuitEvent e) {
+		if (e.getPlayer() == player) {
+			main.stop();
+		}
 	}
 
 	@EventHandler

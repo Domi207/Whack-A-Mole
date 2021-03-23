@@ -44,7 +44,7 @@ public class MuleRunnable implements Runnable, Listener {
 	HashMap<ArmorStand, Mule> mules = new HashMap<>();
 
 	public MuleRunnable(Main main, FileConfiguration config, FileConfiguration leaderboard, Player p) {
-		maxTime = config.getInt("time") * 1000;
+		maxTime = config.getInt("time") * 1000 + 250;
 		pointsPerMule = config.getInt("pointsPerMule");
 		radius = config.getInt("radius");
 		lossPerSecond = config.getInt("lossPerSecond");
@@ -154,7 +154,7 @@ public class MuleRunnable implements Runnable, Listener {
 		} else {
 
 			if (player != null) {
-				Long millis = System.currentTimeMillis() - startTime;
+				Long millis = maxTime - (System.currentTimeMillis() - startTime);
 
 				String formatted = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
 						TimeUnit.MILLISECONDS.toMinutes(millis)

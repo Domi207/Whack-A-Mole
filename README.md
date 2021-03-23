@@ -2,7 +2,7 @@
 
 Whack A Mole ist ein Plugin mit dem du Whack A Mole spielen kannst.
 
-[Video Anleitung](https://www.youtube.com/watch?v=xaazUgEKuVA)
+[Video Anleitung](https://www.youtube.com/watch?v=xaazUgEKuVA)  
 [Builded Jar Download](https://github.com/Domi207/Whack-A-Mole/tree/master/dist)
 
 ## Einrichtung

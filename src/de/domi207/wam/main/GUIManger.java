@@ -18,8 +18,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import net.md_5.bungee.api.chat.ComponentBuilder;
 
 public class GUIManger implements Listener {
 
@@ -31,6 +34,51 @@ public class GUIManger implements Listener {
 		if (p.hasPermission("wam")) {
 			if (e.getView().getTitle().equalsIgnoreCase(main.getMessages().getString("highscoreinventory.title"))) {
 				if (e.getSlot() == e.getRawSlot()) {
+					if (e.getSlot() == 0) {
+						Inventory inventory = Bukkit.createInventory(null, 27,
+								main.getMessages().getString("inventory.title"));
+
+						ItemStack fillerStack = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+						ItemMeta fillerMeta = fillerStack.getItemMeta();
+						fillerMeta.setDisplayName("§r");
+						fillerStack.setItemMeta(fillerMeta);
+
+						for (int i = 0; i < inventory.getSize(); i++) {
+							inventory.setItem(i, fillerStack);
+						}
+						ItemStack startStopItem = new ItemStack(Material.LIME_CONCRETE);
+						if (main.getPlayer() != null) {
+							if (p.hasPermission("wam.other.stop") || main.getPlayer() == p) {
+								startStopItem.setType(Material.RED_CONCRETE);
+								ItemMeta itemMeta = startStopItem.getItemMeta();
+								itemMeta.setDisplayName(main.getMessages().getString("inventory.item.stop.name"));
+								startStopItem.setItemMeta(itemMeta);
+							} else {
+								startStopItem.setType(Material.YELLOW_CONCRETE);
+								ItemMeta itemMeta = startStopItem.getItemMeta();
+								itemMeta.setDisplayName(main.getMessages().getString("inventory.item.cantStart.name"));
+								startStopItem.setItemMeta(itemMeta);
+							}
+						} else {
+							ItemMeta itemMeta = startStopItem.getItemMeta();
+							itemMeta.setDisplayName(main.getMessages().getString("inventory.item.start.name"));
+							startStopItem.setItemMeta(itemMeta);
+						}
+
+						ItemStack highScoreStack = new ItemStack(Material.WRITTEN_BOOK);
+						BookMeta highScoreMeta = (BookMeta) highScoreStack.getItemMeta();
+						highScoreMeta.setTitle("Du böser Cheater!");
+						highScoreMeta.setDisplayName(main.getMessages().getString("inventory.item.highscores.name"));
+						highScoreMeta.setAuthor("");
+						highScoreMeta.spigot().addPage(new ComponentBuilder(
+								"§4§lDu böser Cheater! §r \nWe're no strangers to love. You know the rules and so do. I A full commitment's what I'm thinking of. You wouldn't get this from any other guy. I just wanna tell you how. I'm feeling Gotta make you understand. Never gonna give you up.")
+										.create());
+						highScoreStack.setItemMeta(highScoreMeta);
+
+						inventory.setItem(11, startStopItem);
+						inventory.setItem(15, highScoreStack);
+						p.openInventory(inventory);
+					}
 					e.setCancelled(true);
 				}
 			}
@@ -111,6 +159,36 @@ public class GUIManger implements Listener {
 							}
 							amount--;
 						}
+
+						ItemStack back = new ItemStack(Material.PAPER);
+						ItemMeta backMeta = back.getItemMeta();
+						backMeta.setDisplayName(main.getMessages().getString("leaderboard.back"));
+						back.setItemMeta(backMeta);
+						inventory.setItem(0, back);
+
+						if (leaderboard.contains(p.getUniqueId().toString())) {
+							ConfigurationSection playerSection = leaderboard
+									.getConfigurationSection(p.getUniqueId().toString());
+							Player player = p;
+							Integer points = playerSection.getInt("bestPoints");
+							String name = player.getName();
+							Long time = playerSection.getLong("date");
+							SimpleDateFormat format = new SimpleDateFormat("dd.MM.YYYY");
+							String fomattedDate = format.format(new Date(time));
+
+							ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
+							SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+							skullMeta.setOwningPlayer(player);
+							skullMeta.setDisplayName(String
+									.format(main.getMessages().getString("highscoreinventory.template"), name, points));
+							ArrayList<String> lore = new ArrayList<>();
+							lore.add(String.format(main.getMessages().getString("highscoreinventory.loretemplate"),
+									fomattedDate));
+							skullMeta.setLore(lore);
+							itemStack.setItemMeta(skullMeta);
+							inventory.setItem(18, itemStack);
+						}
+
 						p.openInventory(inventory);
 					}
 				}

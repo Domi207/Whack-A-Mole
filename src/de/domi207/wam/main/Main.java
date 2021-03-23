@@ -34,9 +34,6 @@ public class Main extends JavaPlugin {
 
 		Bukkit.getPluginManager().registerEvents(new GUIManger(), this);
 
-		getCommand("wrackamole").setExecutor(new CommandWrack_A_Mule(this));
-		getCommand("wrackamole").setTabCompleter(new TabCompleterWrackAMule());
-
 		leaderboardFile = new File(getDataFolder(), "leaderboard.yml");
 		configFile = new File(getDataFolder(), "config.yml");
 		messageFile = new File(getDataFolder(), "messages.yml");
@@ -117,6 +114,7 @@ public class Main extends JavaPlugin {
 			messages.set("leaderboard.maxvalue", "§cDer Wert wurde auf 100 reduziert");
 			messages.set("leaderboard.header", "§bDie Top §a%s§b von Whack-A-Mole:\n ");
 			messages.set("leaderboard.template", "§6%s. §a%s§7: §b%s§8 - §7%s");
+			messages.set("leaderboard.back", "§cZurück");
 
 			messages.set("settings.center.sucess", "§aDer Mittelpunkt wurde erfolgreich gesetzt");
 
@@ -173,6 +171,9 @@ public class Main extends JavaPlugin {
 
 		}
 		save();
+
+		getCommand("wrackamule").setExecutor(new CommandWrack_A_Mule(this));
+		getCommand("wrackamule").setTabCompleter(new TabCompleterWrackAMule());
 
 		prefix = messages.getString("Prefix");
 	}
